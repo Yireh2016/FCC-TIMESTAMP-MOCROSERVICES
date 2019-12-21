@@ -25,7 +25,13 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/timestamp/:date_string",(req, res)=>{
-  const {date_string}=req.params;
+  let {date_string}=req.params;
+      console.log("date_string ", date_string)
+
+  if(/[0-9]*(=?!-)/.test(date_string)){
+    date_string=parseInt(date_string,10)
+  }
+
   const date=date_string?new Date(date_string):new Date();
   const unix=date.getTime() / 1000
   res.json({unix, utc:date.toUTCString(date)})
